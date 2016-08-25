@@ -18,10 +18,10 @@ $ echo '{"services":[{"id":"webservice-poll","name":"webservice-poll","tags":["p
 ```bash
 $consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -node=agent-one -bind=172.20.20.10 -client=0.0.0.0 -config-dir /etc/consul.d/ -ui
 ```
-*172.20.20.10 - private ipaddress of node1 
-*bootstrap-expect [num] - num tells the server that it expect atleast one node to join.
-*consul can run either as server or agent, -server makes the consul agent as server
-*-node gives a name to identify the node
+* 172.20.20.10 - private ipaddress of node1 
+* bootstrap-expect [num] - num tells the server that it expect atleast one node to join.
+* consul can run either as server or agent, -server makes the consul agent as server
+* -node gives a name to identify the node
 
 Notes:
 Expose client = 0.0.0.0 inorder to accomplish [port forwarding to localhost](https://groups.google.com/forum/#!topic/vagrant-up/Gk7brIps2_8)
