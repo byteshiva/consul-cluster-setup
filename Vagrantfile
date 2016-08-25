@@ -20,6 +20,16 @@ sudo chmod a+w /etc/consul.d
 
 SCRIPT
 
+$multi-check-service = <<SCRIPT
+
+echo adding multi-check-serivce for service running on port 80...
+echo '{"services":[{"id":"webservice-poll","name":"webservice-poll","tags":["poll"],"port":80,"checks":[{"name":"Sys check ","script":"some_scripts.sh param1 param2","interval":"5s","timeout":"1s"},{"name":"Check if service is alive","http":"http://localhost:80/checkservice","interval":"5s","timeout":"1s"},{"name":"HTTP on port 80","http":"http://localhost:80/","interval":"5s","timeout":"1s"},{"id":"check particular tcp port","name":"check a port","tcp":"localhost:3415","interval":"10s","timeout":"1s"}]}]}' > /etc/consul.d/checkbservice.json
+
+echo '{"service": {"name": "web", "tags": ["rails"], "port": 80,"check": {"script": "curl localhost >/dev/null 2>&1", "interval": "10s"}}}' > /etc/consul.d/web.json
+
+SCRIPT
+
+
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 # Create three nodes 
 VAGRANTFILE_API_VERSION = "2"
@@ -39,6 +49,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "node2" do |node2|
       node2.vm.hostname = "node2"
       node2.vm.network "private_network", ip: "172.20.20.11"
+      node2.vm.provision "shell", inline: $multi-check-service
   end
 
   config.vm.define "node3" do |node3|
