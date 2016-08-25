@@ -29,6 +29,13 @@ echo '{"service": {"name": "web", "tags": ["rails"], "port": 80,"check": {"scrip
 
 SCRIPT
 
+UDP_PORTS_LIST={
+  "8500" => 8500 # Rest Service
+}
+
+TCP_PORTS_LIST={
+  "8600" => 8600 # Alternate port for DNS
+}
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 # Create three nodes 
@@ -42,8 +49,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "node1" do |node1|
       node1.vm.hostname = "node1"
       node1.vm.network "private_network", ip: "172.20.20.10"
-      node1.vm.network "forwarded_port", guest: 8500, host: 8500
-      node1.vm.network "forwarded_port", guest: 8600, host: 8600
+      UDP_PORTS_LIST.each do |guest, host|
+	      node1.vm.network "forwarded_port", guest: "#{guest}", host: "#{host}", protocol: "udp"
+      end
+      TCP_PORTS_LIST.each do |guest, host|
+	      node1.vm.network "forwarded_port", guest: "#{guest}", host: "#{host}", protocol: "tcp"
+      end
+      #node1.vm.network "forwarded_port", guest: 8500, host: 8500
+      #node1.vm.network "forwarded_port", guest: 8600, host: 8600
   end
 
   config.vm.define "node2" do |node2|
