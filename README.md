@@ -68,5 +68,16 @@ node1@$consul join 172.20.20.12
 * note the node can join to any member in the cluster, its not mandatory to join from server node.
 
 
+** DNS Setup on localhost
+
+```bash
+localhostmachine@user$sudo apt-get install dnsmasq -y
+localhostmachine@user$sudo -s
+localhostmachine@user@echo "server=/consul/127.0.0.1#8600" > /etc/dnsmasq.d/10-consul
+localhostmachine@user@sudo service dnsmasq restart
+ * Restarting DNS forwarder and DHCP server dnsmasq                           [ OK ] 
+```
+
+
 
 
