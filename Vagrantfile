@@ -30,12 +30,15 @@ echo '{"service": {"name": "web", "tags": ["rails"], "port": 80,"check": {"scrip
 SCRIPT
 
 UDP_PORTS_LIST={
-  "8500" => 8500 # Rest Service
+  "8500" => 8500, # Some service
+  "8600" => 8600 # VNC
 }
 
 TCP_PORTS_LIST={
-  "8600" => 8600 # Alternate port for DNS
+  "8600" => 8600, # VNC
+  "8500" => 8500 # Some service
 }
+
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 # Create three nodes 
